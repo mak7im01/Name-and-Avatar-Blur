@@ -1,0 +1,22 @@
+{
+    "name": "Name and Avatar Blur",
+    "libraryLogo": "logo.svg",
+    "author": [
+        "dobryjigrok",
+        "diram1x"
+    ],
+    "description": "Блюр имён и аватаров для скриншотов!",
+    "version": "1.0.0",
+    "css": "style.css",
+    "script": "script.js",
+    "type": "script",
+    "tags": [
+        "script"
+    ],
+    "image": "logo.svg",
+    "banner": "banner.svg",
+    "fromPext": true,
+    "installSource": "local",
+    "id": "73be6b1f956e3893ec19ba9a",
+    "packageHash": "903ae5695ec00153833df862f52d7448404a1b37f3311112753f96dd44bff8b1"
+}

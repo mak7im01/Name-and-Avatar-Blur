@@ -1,1 +1,29 @@
-<img width="155" height="61" alt="image" src="https://github.com/user-attachments/assets/0505e2f8-1525-4cfe-81bf-51a4e7d14efe" />
+# Name and Avatar Blur
+
+Аддон для размытия имени пользователя и аватара в PulseSync
+
+---
+
+## Благодарности
+
+За идею взят аддон **[Name Blur](https://github.com/Diramix/Name-Blur)** от [diram1x](https://github.com/Diramix)
+
+---
+
+## Описание
+
+Name and Avatar Blur применяет эффект размытия к следующим элементам:
+
+* **Имя пользователя** - плавное размытие текста
+* **Аватар пользователя** - круглое размытие изображения
+
+Идеально подходит для создания скриншотов с сохранением конфиденциальности
+
+## Особенности
+
+* Плавное размытие имён
+* Круглая форма размытия для аватара
+* Настройка включения/выключения блюра прямо в PulseSync без перезагрузки страницы
+
+
+  ## <img width="155" height="61" alt="image" src="https://github.com/user-attachments/assets/0505e2f8-1525-4cfe-81bf-51a4e7d14efe" />

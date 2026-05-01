@@ -1,0 +1,17 @@
+{
+  "sections": [
+    {
+      "title": "Настройки блюра",
+      "items": [
+        {
+          "id": "blurAll",
+          "name": "Блюр",
+          "description": "Включить или выключить размытие ника и аватара",
+          "type": "button",
+          "bool": true,
+          "defaultParameter": true
+        }
+      ]
+    }
+  ]
+}
