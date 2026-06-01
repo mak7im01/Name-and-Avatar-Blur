@@ -1,72 +1,65 @@
-// Текущее состояние настроек
-let currentBlurAll = null;
+(function () {
+    'use strict';
 
-// Применение блюра к элементам напрямую
-function applyBlur() {
-    const nameEl = document.querySelector('.UserProfile_userName__PTRuJ');
-    const avatarEl = document.querySelector('.UserID-Avatar-Image');
+    let currentBlurAll = true;
 
-    if (nameEl) {
-        if (currentBlurAll) {
-            nameEl.style.setProperty('filter', 'blur(7px)', 'important');
-        } else {
-            nameEl.style.removeProperty('filter');
+    // Читаем булево значение из объекта настроек (поддерживает формат {value, default} и plain-значение)
+    function readBoolean(settings, key, fallback) {
+        const entry = settings[key];
+        if (entry !== null && typeof entry === 'object' && !Array.isArray(entry)) {
+            if (typeof entry.value !== 'undefined') return Boolean(entry.value);
+            if (typeof entry.default !== 'undefined') return Boolean(entry.default);
+        }
+        return typeof entry !== 'undefined' ? Boolean(entry) : fallback;
+    }
+
+    // Применение блюра ко всем целевым элементам
+    function applyBlur() {
+        const nameEl   = document.querySelector('.UserProfile_userName__PTRuJ');
+        const avatarEl = document.querySelector('.UserID-Avatar-Image');
+
+        if (nameEl) {
+            if (currentBlurAll) {
+                nameEl.style.setProperty('filter', 'blur(7px)', 'important');
+            } else {
+                nameEl.style.removeProperty('filter');
+            }
+        }
+
+        if (avatarEl) {
+            if (currentBlurAll) {
+                avatarEl.style.setProperty('filter', 'blur(7px)', 'important');
+                avatarEl.style.setProperty('clip-path', 'circle(50%)', 'important');
+            } else {
+                avatarEl.style.removeProperty('filter');
+                avatarEl.style.removeProperty('clip-path');
+            }
         }
     }
 
-    if (avatarEl) {
-        if (currentBlurAll) {
-            avatarEl.style.setProperty('filter', 'blur(7px)', 'important');
-            avatarEl.style.setProperty('clip-path', 'circle(50%)', 'important');
-        } else {
-            avatarEl.style.removeProperty('filter');
-            avatarEl.style.removeProperty('clip-path');
-        }
+    // Применяем настройки из объекта и сразу перерисовываем
+    function applySettings(settings) {
+        currentBlurAll = readBoolean(settings, 'blurAll', true);
+        applyBlur();
     }
-}
 
-// Получение настроек из PulseSync
-async function getSettings(name) {
-    try {
-        const response = await fetch(`http://localhost:2007/get_handle?name=${name}`);
-        if (!response.ok) throw new Error(`Ошибка сети: ${response.status}`);
+    // Инициализация настроек — точно так же как в CoverDownloader, без ожидания
+    const store = window.pulsesyncApi?.getSettings('Name and Avatar Blur') ?? {
+        getCurrent: () => ({}),
+        onChange: () => () => {},
+    };
 
-        const { data } = await response.json();
-        if (!data?.sections) return null;
+    applySettings(store.getCurrent());
 
-        const result = {};
-        data.sections.forEach(section => {
-            section.items.forEach(item => {
-                result[item.id] = {
-                    value: item.bool ?? item.input ?? item.selected ?? item.value ?? item.filePath,
-                    default: item.defaultParameter
-                };
-            });
-        });
-        return result;
-    } catch (e) {
-        console.error("[NameAvatarBlur]", e);
-        return null;
-    }
-}
+    store.onChange(nextSettings => {
+        applySettings(nextSettings);
+    });
 
-// Обновляем настройки каждые 2 секунды
-async function updateSettings() {
-    const settings = await getSettings("Name and Avatar Blur");
-    if (!settings) return;
+    // MutationObserver — следим за появлением целевых элементов в DOM
+    const observer = new MutationObserver(() => {
+        applyBlur();
+    });
 
-    const blurAll = settings?.blurAll?.value ?? true;
-    if (blurAll !== currentBlurAll) {
-        currentBlurAll = blurAll;
-    }
-}
+    observer.observe(document.body, { childList: true, subtree: true });
 
-// Применяем блюр каждые 100мс — мгновенно для глаза, без конфликтов с другими аддонами
-function applyLoop() {
-    applyBlur();
-    requestAnimationFrame(applyLoop);
-}
-
-updateSettings();
-setInterval(updateSettings, 2000);
-requestAnimationFrame(applyLoop);
+})();

@@ -6,7 +6,7 @@
         "diram1x"
     ],
     "description": "Блюр имён и аватаров для скриншотов!",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "css": "style.css",
     "script": "script.js",
     "type": "script",
@@ -18,5 +18,6 @@
     "fromPext": true,
     "installSource": "local",
     "id": "73be6b1f956e3893ec19ba9a",
-    "packageHash": "903ae5695ec00153833df862f52d7448404a1b37f3311112753f96dd44bff8b1"
+    "packageHash": "903ae5695ec00153833df862f52d7448404a1b37f3311112753f96dd44bff8b1",
+    "storeAddonId": "9a9ea1ff-a7e3-41a3-8cfd-1ba9d4a8c12c"
 }
